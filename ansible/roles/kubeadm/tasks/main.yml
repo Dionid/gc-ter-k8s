@@ -51,21 +51,24 @@
 
 ## Install
 
-# - name: Create keyring directory
-#   file:
-#     path: /etc/apt/keyrings
-#     owner:owner: "ubuntu"
-#     group: "ubuntu"
-#     mode: 0755
+- name: Create keyring directory
+  file:
+    path: /etc/apt/keyrings
+    owner: "ubuntu"
+    group: "ubuntu"
+    mode: 0755
 
-# - name: Add GPG key for kubeadm
-#   shell: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+- name: Remove GPG key for kubeadm
+  shell: rm /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
-# - name: chmod GPG key for kubeadm
-#   shell: sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg # allow unprivileged APT programs to read this keyring
+- name: Add GPG key for kubeadm
+  shell: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+- name: chmod GPG key for kubeadm
+  shell: sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg # allow unprivileged APT programs to read this keyring
 
 - name: Add kubernetes apt repository
-  shell: echo 'deb https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+  shell: echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 - name: chmod kubernetes apt repository
   shell: sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list   # helps tools such as command-not-found to work correctly
