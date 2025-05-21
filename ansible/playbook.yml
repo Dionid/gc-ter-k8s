@@ -12,12 +12,14 @@
 
 - hosts:
     - master
-  tags: ['deploy']
+  become: true
+  tags: ['deploy', 'deploy_master']
   roles:
     - master_node
 
 - hosts:
     - worker
-  tags: ['deploy']
+  become: true
+  tags: ['deploy', 'deploy_worker']
   roles:
     - worker_node

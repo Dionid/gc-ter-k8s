@@ -10,3 +10,6 @@ terraform/*.tfstate
 terraform/*.tfstate.*
 terraform/*.tfvars
 !terraform/example.tfvars
+
+join-command-worker
+kube_config

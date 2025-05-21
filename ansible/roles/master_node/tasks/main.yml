@@ -1,54 +1,42 @@
----
-
-- name: Allow ports for master node
-  become: yes
-  ufw:
-    state: enabled
-    rule: allow
-    to_port: '{{ item }}'
-  with_items:
-    - [6443, 2379, 2380, 10250, 10251, 10252]
-
-- name: Init kubernetes cluster
+- name: Initialize the cluster using the config file
   become: yes
   shell: |
-    kubeadm init --node-name master --pod-network-cidr=10.244.0.0/16
+    kubeadm init --node-name master --pod-network-cidr=10.244.0.0/16 --control-plane-endpoint {{ ansible_default_ipv4.address }}:6443
+    touch /etc/kubernetes/ansible-installed-k8s
+  args:
+    creates: /etc/kubernetes/ansible-installed-k8s
 
 - name: Create kubernetes config directory
   file:
-    path: "~/.kube/"
+    path: "/home/ubuntu/.kube/"
     state: directory
 
 - name: Copy admin.conf to home directory
-  become: yes
+  become: yes 
   copy:
     src: "/etc/kubernetes/admin.conf" 
-    dest: "~/.kube/config"
+    dest: "/home/ubuntu/.kube/config"
     owner: "ubuntu"
     group: "ubuntu"
     mode: 0755
     remote_src: true
 
-- name: Update kernel settings for installing flannel
-  become: yes
-  sysctl:
-    name: net.bridge.bridge-nf-call-iptables
-    value: '1'
-    sysctl_set: yes
-    state: present
-    reload: yes
-
-- name: Install flannel
+- name: Install calico pod network
   shell: |
-    kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+    kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+    touch /etc/kubernetes/ansible-installed-calico
+  args:
+    creates: /etc/kubernetes/ansible-installed-calico
 
-- name: Generate a token
-  shell: |
-    kubeadm token create
-  register: kubeadm_token
+# Source: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/
 
-- name: Generate a ca cert token
-  shell: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
-  check_mode: false
-  changed_when: false
-  register: kubeadm_ca_cert
+- name: Generate the command to join a Worker node and assign it to a variable
+  shell: kubeadm token create --print-join-command
+  register: join_command
+
+- name: Copy the join command for a Worker node to a local file
+  copy:
+    content: "{{ join_command.stdout }}"
+    dest: "./join-command-worker"
+  delegate_to: localhost
+  become: false

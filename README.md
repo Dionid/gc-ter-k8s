@@ -24,3 +24,8 @@
 1. Prometheus + Grafana + Jaeger
 1. Loki
 1. zsh
+
+# Links
+
+1. https://github.com/bmf-san/setup-kubernetes-cluster-on-vps-boilerplate/tree/main
+1. https://github.com/nnellans/ansible-k8s/tree/main
