@@ -14,42 +14,7 @@
     replace: '#\1\2\3swap\4'
     backup: yes
 
-# ContainerD
-
-- name: Create an empty file for the containerd module
-  copy:
-    content: ""
-    dest: /etc/modules-load.d/containerd.conf
-    force: no
-
-- name: Configure modules for containerd
-  blockinfile:
-    path: /etc/modules-load.d/containerd.conf
-    block: |
-      overlay
-      br_netfilter
-
-# K8s prerequisit
-
-- name: Create an empty file for Kubernetes sysctl params
-  copy:
-    content: ""
-    dest: /etc/sysctl.d/99-kubernetes-cri.conf
-    force: no
-
-- name: Configure sysctl params for Kubernetes
-  lineinfile:
-    path: /etc/sysctl.d/99-kubernetes-cri.conf
-    line: "{{ item }}"
-  with_items:
-    - 'net.bridge.bridge-nf-call-iptables  = 1'
-    - 'net.ipv4.ip_forward                 = 1'
-    - 'net.bridge.bridge-nf-call-ip6tables = 1'
-
-- name: Apply sysctl params without reboot
-  command: sysctl --system
-
-## Install
+# Install
 
 - name: Create keyring directory
   file:
@@ -88,6 +53,21 @@
       - kubectl
       - containerd.io
 
+# ContainerD
+
+- name: Create an empty file for the containerd module
+  copy:
+    content: ""
+    dest: /etc/modules-load.d/containerd.conf
+    force: no
+
+- name: Configure modules for containerd
+  blockinfile:
+    path: /etc/modules-load.d/containerd.conf
+    block: |
+      overlay
+      br_netfilter
+
 - name: create Containerd directory
   file:
     path: /etc/containerd
@@ -99,8 +79,8 @@
 - name: configuring the systemd cgroup driver for Containerd
   lineinfile:
     path: /etc/containerd/config.toml
-    regexp: 'SystemdCgroup = false'
-    line: 'SystemdCgroup = true'
+    regexp: '            SystemdCgroup = false'
+    line: '            SystemdCgroup = true'
 
 - name: enable the Containerd service and start it
   systemd:
@@ -109,10 +89,35 @@
     enabled: yes
     daemon-reload: yes
 
+# Kubelet
+
+- name: Create an empty file for Kubernetes sysctl params
+  copy:
+    content: ""
+    dest: /etc/sysctl.d/99-kubernetes-cri.conf
+    force: no
+
+- name: Configure sysctl params for Kubernetes
+  lineinfile:
+    path: /etc/sysctl.d/99-kubernetes-cri.conf
+    line: "{{ item }}"
+  with_items:
+    - 'net.bridge.bridge-nf-call-iptables  = 1'
+    - 'net.ipv4.ip_forward                 = 1'
+    - 'net.bridge.bridge-nf-call-ip6tables = 1'
+
+- name: Apply sysctl params without reboot
+  command: sysctl --system
+
 - name: enable the Kubelet service, and enable it persistently
   service:
     name: kubelet
     enabled: yes
+
+- name: load br_netfilter kernel module
+  modprobe:
+    name: overlay
+    state: present
 
 - name: load br_netfilter kernel module
   modprobe:

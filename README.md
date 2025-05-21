@@ -23,3 +23,4 @@
 1. App + Docker + Github Actions (dev / stage / prod) (test / migrations / build / deploy)
 1. Prometheus + Grafana + Jaeger
 1. Loki
+1. zsh
