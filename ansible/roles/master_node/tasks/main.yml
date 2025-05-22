@@ -1,0 +1,35 @@
+- name: Initialize the cluster
+  become: yes
+  shell: |
+    kubeadm init --node-name master --pod-network-cidr=10.244.0.0/16 --control-plane-endpoint {{ hostvars[groups['master'][0]].ansible_host }}:6443
+    touch /etc/kubernetes/ansible-installed-k8s
+  args:
+    creates: /etc/kubernetes/ansible-installed-k8s
+
+- name: Create kubernetes config directory
+  file:
+    path: "/home/ubuntu/.kube/"
+    state: directory
+
+- name: Copy admin.conf to home directory
+  become: yes 
+  copy:
+    src: "/etc/kubernetes/admin.conf" 
+    dest: "/home/ubuntu/.kube/config"
+    owner: "ubuntu"
+    group: "ubuntu"
+    mode: 0755
+    remote_src: true
+
+# Source: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/
+
+- name: Generate the command to join a Worker node and assign it to a variable
+  shell: kubeadm token create --print-join-command
+  register: join_command
+
+- name: Copy the join command for a Worker node to a local file
+  copy:
+    content: "{{ join_command.stdout }}"
+    dest: "./join-command-worker"
+  delegate_to: localhost
+  become: false

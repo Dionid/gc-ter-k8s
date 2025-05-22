@@ -1,0 +1,40 @@
+---
+- hosts: 
+    - master
+    - worker
+  tags: ['init']
+  become: true
+  roles:
+    - apt
+    - kubeadm
+  gather_facts: true
+
+- hosts:
+    - master
+  become: true
+  tags: ['deploy', 'deploy_master']
+  roles:
+    - master_node
+
+- hosts:
+    - master
+  become: true
+  tags: ['deploy', 'deploy_cni_flannel']
+  roles:
+    - flannel
+
+- hosts:
+    - worker
+  become: true
+  tags: ['deploy', 'deploy_worker']
+  roles:
+    - worker_node
+
+- hosts:
+    - master
+    - worker
+  become: true
+  tags: ['WARNING-reset-all']
+  tasks:
+    - name: "Reset"
+      shell: kubeadm reset --force

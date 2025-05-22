@@ -21,12 +21,14 @@ resource "google_compute_instance" "k8s-node" {
 
   network_interface {
     network       = var.network
+    network_ip = var.network_ip
     access_config {
       // External IP
     }
   }
 
   metadata = {
+    "serial-port-enable" = "true"
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
 }

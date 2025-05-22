@@ -26,3 +26,8 @@ variable "network" {
     type = string
     description = "gc network"
 }
+
+variable "network_ip" {
+    type = string
+    description = "vm private network ip"
+}
