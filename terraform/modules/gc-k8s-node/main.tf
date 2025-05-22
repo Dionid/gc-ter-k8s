@@ -27,6 +27,7 @@ resource "google_compute_instance" "k8s-node" {
   }
 
   metadata = {
+    "serial-port-enable" = "true"
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
 }

@@ -23,7 +23,12 @@ resource "google_compute_firewall" "k8s-firewall" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22", "6443", "2379-2380", "10250", "10251", "10252"]
+    ports    = ["22", "6443", "2379-2380", "10250", "10259", "10257", "10251", "10252", "179", "5473", "443"]
+  }
+
+  allow {
+    protocol = "udp"
+    ports    = ["4789", "51820", "51821"]
   }
 
   source_ranges = ["0.0.0.0/0"]

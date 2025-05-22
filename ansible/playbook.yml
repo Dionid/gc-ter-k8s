@@ -18,6 +18,13 @@
     - master_node
 
 - hosts:
+    - master
+  become: true
+  tags: ['deploy', 'deploy_cni_calico']
+  roles:
+    - calico
+
+- hosts:
     - worker
   become: true
   tags: ['deploy', 'deploy_worker']

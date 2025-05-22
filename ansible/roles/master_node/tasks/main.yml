@@ -21,13 +21,6 @@
     mode: 0755
     remote_src: true
 
-- name: Install calico pod network
-  shell: |
-    kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
-    touch /etc/kubernetes/ansible-installed-calico
-  args:
-    creates: /etc/kubernetes/ansible-installed-calico
-
 # Source: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/
 
 - name: Generate the command to join a Worker node and assign it to a variable

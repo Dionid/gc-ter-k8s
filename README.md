@@ -13,7 +13,6 @@
 
 # TODO
 
-1. Ansible Kubernetes
 1. CNI
 1. Rancher
 1. ArgoCD
