@@ -3,7 +3,7 @@
 # Pre
 
 - name: Install packages to allow apt to use a repository over HTTPS
-  ansible.builtin.apt:
+  apt:
     update_cache: yes
     pkg:
     - apt-transport-https

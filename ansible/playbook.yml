@@ -19,9 +19,9 @@
 - hosts:
     - master
   become: true
-  tags: ['deploy', 'deploy_cni_calico']
+  tags: ['deploy', 'deploy_cni_flannel']
   roles:
-    - calico
+    - flannel
 
 - hosts:
     - worker
@@ -29,3 +29,12 @@
   tags: ['deploy', 'deploy_worker']
   roles:
     - worker_node
+
+- hosts:
+    - master
+    - worker
+  become: true
+  tags: ['WARNING-reset-all']
+  tasks:
+    - name: "Reset"
+      shell: kubeadm reset --force

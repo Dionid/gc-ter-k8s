@@ -23,15 +23,37 @@ resource "google_compute_firewall" "k8s-firewall" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22", "6443", "2379-2380", "10250", "10259", "10257", "10251", "10252", "179", "5473", "443"]
+    ports    = ["22", "6443"]
+  }
+
+  allow {
+    protocol = "icmp"
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+}
+
+resource "google_compute_firewall" "k8s-firewall-internal" {
+  name    = "k8s-firewall-internal"
+  network = google_compute_network.vpc_network.self_link
+
+  allow {
+    protocol = "tcp"
   }
 
   allow {
     protocol = "udp"
-    ports    = ["4789", "51820", "51821"]
   }
 
-  source_ranges = ["0.0.0.0/0"]
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "ipip"
+  }
+
+  source_ranges = ["10.128.0.0/9"]
 }
 
 module "master_instance" {

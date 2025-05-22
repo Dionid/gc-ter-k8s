@@ -1,4 +1,4 @@
-- name: Initialize the cluster using the config file
+- name: Initialize the cluster
   become: yes
   shell: |
     kubeadm init --node-name master --pod-network-cidr=10.244.0.0/16 --control-plane-endpoint {{ hostvars[groups['master'][0]].ansible_host }}:6443

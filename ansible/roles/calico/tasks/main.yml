@@ -1,7 +1,0 @@
-- name: Install Calico 
-  shell: |
-    helm repo add projectcalico https://docs.tigera.io/calico/charts
-    helm install calico projectcalico/tigera-operator --version v3.30.0 --namespace tigera-operator --create-namespace
-    touch /etc/kubernetes/ansible-installed-calico
-  args:
-    creates: /etc/kubernetes/ansible-installed-calico
