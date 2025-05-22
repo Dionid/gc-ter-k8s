@@ -64,6 +64,7 @@ module "master_instance" {
   machine_type = var.master_node.machine_type
   zone         = var.master_node.zone
   network = google_compute_network.vpc_network.self_link
+  network_ip = var.master_node.network_ip
 }
 
 module "worker_instance" {
@@ -75,6 +76,7 @@ module "worker_instance" {
   machine_name = each.value.machine_name
   machine_type = each.value.machine_type
   zone         = each.value.zone
+  network_ip = each.value.network_ip
   network = google_compute_network.vpc_network.self_link
 }
 
