@@ -1,7 +1,7 @@
 - name: Initialize the cluster using the config file
   become: yes
   shell: |
-    kubeadm init --node-name master --pod-network-cidr=10.244.0.0/16 --control-plane-endpoint {{ ansible_default_ipv4.address }}:6443
+    kubeadm init --node-name master --pod-network-cidr=10.244.0.0/16 --control-plane-endpoint {{ hostvars[groups['master'][0]].ansible_host }}:6443
     touch /etc/kubernetes/ansible-installed-k8s
   args:
     creates: /etc/kubernetes/ansible-installed-k8s

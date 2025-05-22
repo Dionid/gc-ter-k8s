@@ -14,6 +14,7 @@
 # TODO
 
 1. CNI
+1. LoadBalancer
 1. Rancher
 1. ArgoCD
 1. Vault

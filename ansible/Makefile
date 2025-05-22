@@ -7,7 +7,7 @@ provision: ## Run ansible-playbook
 provision-master: ## Run ansible-playbook
 	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags deploy_master
 
-provision-master: ## Run ansible-playbook
+provision-master-cni: ## Run ansible-playbook
 	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags deploy_cni_calico
 
 provision-worker: ## Run ansible-playbook
