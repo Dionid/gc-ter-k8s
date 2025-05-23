@@ -9,12 +9,12 @@
 
 1. Terraform
 1. Ansible
-1. ...
+1. Flannel
+1. MetalLB
+1. cert-manager
 
 # TODO
 
-1. CNI
-1. LoadBalancer
 1. Rancher
 1. ArgoCD
 1. Vault
@@ -24,6 +24,9 @@
 1. Prometheus + Grafana + Jaeger
 1. Loki
 1. zsh
+1. Cilium / Callico
+1. Flagger
+1. cert-manager + MetalLB -> ArgoCD
 
 # Links
 
