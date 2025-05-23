@@ -1,18 +1,5 @@
 ---
-- name: Create namespace
-  kubernetes.core.k8s:
-    # kubeconfig: ~/.kube/config
-    state: present
-    kind: Namespace
-    name: argocd
-
-- name: Apply ArgoCD
-  kubernetes.core.k8s:
-    state: present
-    namespace: argocd
-    src: ../files/instal.yaml
-
-# - name: Install ArgoCD
-#   shell: |
-#     kubectl create namespace argocd
-#     kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+- name: Install ArgoCD
+  shell: |
+    kubectl create namespace argocd
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
