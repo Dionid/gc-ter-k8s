@@ -1,0 +1,43 @@
+---
+- name: Ensure pip is installed
+  become: true
+  ansible.builtin.package:
+    name: python3-pip
+    state: present
+
+- name: Ensure Python3 venv module is installed
+  become: true
+  ansible.builtin.apt:
+    name: python3-venv
+    state: present
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Ensure virtualenv directory exists
+  ansible.builtin.file:
+    path: /home/ubuntu/venv
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: Create Python3 virtual environment
+  ansible.builtin.command: python3 -m venv /home/ubuntu
+  args:
+    creates: /home/ubuntu/bin/activate
+
+- name: Add /home/ubuntu/bin to global PATH via /etc/profile.d
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/profile.d/global_venv.sh
+    content: |
+      export PATH="/home/ubuntu/venv/bin:$PATH"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Install pip k8s
+  ansible.builtin.pip:
+    name:
+      - kubernetes
+      - openshift
+    executable: /home/ubuntu/bin/pip

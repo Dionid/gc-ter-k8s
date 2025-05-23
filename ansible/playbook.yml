@@ -1,5 +1,6 @@
 ---
-- hosts: 
+- name: Configure nodes
+  hosts:
     - master
     - worker
   tags: ['init']
@@ -7,30 +8,51 @@
   roles:
     - apt
     - kubeadm
+    - ansible-kube
   gather_facts: true
 
-- hosts:
+- name: Configure ansible kube
+  hosts:
+    - master
+    - worker
+  tags: ['init', 'ansible-kube']
+  roles:
+    - ansible-kube
+  gather_facts: true
+
+- name: Provision Master
+  hosts:
     - master
   become: true
   tags: ['deploy', 'deploy_master']
   roles:
     - master_node
 
-- hosts:
+- name: Deploy flannel
+  hosts:
     - master
   become: true
   tags: ['deploy', 'deploy_cni_flannel']
   roles:
     - flannel
 
-- hosts:
+- name: Deploy argocd
+  hosts:
+    - master
+  tags: ['deploy', 'deploy_argocd']
+  roles:
+    - argocd
+
+- name: Init Worker
+  hosts:
     - worker
   become: true
   tags: ['deploy', 'deploy_worker']
   roles:
     - worker_node
 
-- hosts:
+- name: Deploy argocd
+  hosts:
     - master
     - worker
   become: true
