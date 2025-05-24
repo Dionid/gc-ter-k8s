@@ -12,12 +12,10 @@
 1. Flannel
 1. MetalLB
 1. cert-manager
+1. ArgoCD
 
 # TODO
 
-1. Rancher
-1. ArgoCD
-1. Expose ArgoCD
 1. Vault
 1. PG master-slave (Patroni)
 1. Kafka master-slave (Strimzi)
@@ -27,6 +25,7 @@
 1. Grafana Tempo / ClickHouse
 1. keycloak
 1. zsh
+1. Rancher
 1. Cilium / Callico
 1. Flagger
 1. cert-manager + MetalLB -> ArgoCD
