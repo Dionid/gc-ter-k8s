@@ -20,9 +20,12 @@
 1. `cd terraform`
     1. `terraform apply -var-file=./secret.tfvars`
 1. `cd ansible`
-    1. `make init`
+    1. `make prepare-machines`
     1. `make provision-master`
     1. `make provision-workers`
+    1. `make install-cilium`
+    1. `make install-argocd`
+    1. `make install-cert-manager`
     1. ``
 1. `make get-kube-config`
 1. ...

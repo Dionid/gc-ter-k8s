@@ -1,4 +1,11 @@
-init: ## Run ansible-playbook for initilization
+# Setup
+
+setup:
+	ansible-galaxy collection install -r requirements.yml
+
+# Prepare machines
+
+prepare-machines: ## Run ansible-playbook for initilization
 	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags init
 
 # Master
@@ -11,6 +18,9 @@ install-cni-cilium: ## Run ansible-playbook
 
 install-argocd: ## Run ansible-playbook
 	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags install_argocd
+
+install-cert-manager: ## Run ansible-playbook
+	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags install-cert-manager
 
 # Worker
 

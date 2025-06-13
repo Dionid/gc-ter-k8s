@@ -9,6 +9,7 @@
     - apt
     - kubeadm
     - ansible-kube
+    - helm
   gather_facts: true
 
 - name: Provision Master
@@ -27,6 +28,16 @@
   roles:
     - worker_node
 
+# Install
+
+- name: Install helm
+  hosts:
+    - master
+  tags: ['install', 'install-helm']
+  roles:
+    - helm
+
+
 - name: Install cilium
   hosts:
     - master
@@ -37,9 +48,13 @@
 - name: Install argocd
   hosts:
     - master
-  environment:
-    KUBECONFIG: "~/.kube/config"
   tags: ['install', 'install_argocd']
   roles:
     - argocd
 
+- name: Install cert-manager
+  hosts:
+    - master
+  tags: ['install', 'install-cert-manager']
+  roles:
+    - cert-manager

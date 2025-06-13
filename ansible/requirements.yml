@@ -1,0 +1,4 @@
+---
+collections:
+  - name: kubernetes.core
+    version: "2.4.0"  # You can specify a specific version or omit for latest
