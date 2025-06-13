@@ -1,3 +1,5 @@
+.vscode
+
 # ansible
 ansible/inventories/*
 !ansible/inventories/.gitkeep

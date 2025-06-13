@@ -50,13 +50,3 @@
   tags: ['deploy', 'deploy_worker']
   roles:
     - worker_node
-
-- name: Deploy argocd
-  hosts:
-    - master
-    - worker
-  become: true
-  tags: ['WARNING-reset-all']
-  tasks:
-    - name: "Reset"
-      shell: kubeadm reset --force
