@@ -1,27 +1,21 @@
 init: ## Run ansible-playbook for initilization
 	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags init
 
-provision-all: ## Run ansible-playbook
-	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags deploy
-
 # Master
 
 provision-master: ## Run ansible-playbook
-	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags deploy_master
+	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags provision_master
 
-install-cni-flannel: ## Run ansible-playbook
-	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags deploy_cni_flannel
+install-cni-cilium: ## Run ansible-playbook
+	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags install_cni_cilium
 
 install-argocd: ## Run ansible-playbook
-	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags deploy_argocd
-
-install-ansible-kube: ## Run ansible-playbook
-	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags ansible-kube
+	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags install_argocd
 
 # Worker
 
-provision-worker: ## Run ansible-playbook
-	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags deploy_worker
+provision-workers: ## Run ansible-playbook
+	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags provision_workers
 
 # DANGEROUS
 

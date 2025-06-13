@@ -15,3 +15,5 @@ terraform/*.tfvars
 
 join-command-worker
 kube_config
+
+.env

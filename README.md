@@ -9,10 +9,23 @@
 
 1. Terraform
 1. Ansible
-1. Flannel
+1. k8s
+1. Cilium
 1. MetalLB
 1. cert-manager
 1. ArgoCD
+
+# Install
+
+1. `cd terraform`
+    1. `terraform apply -var-file=./secret.tfvars`
+1. `cd ansible`
+    1. `make init`
+    1. `make provision-master`
+    1. `make provision-workers`
+    1. ``
+1. `make get-kube-config`
+1. ...
 
 # TODO
 

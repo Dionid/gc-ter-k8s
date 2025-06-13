@@ -11,42 +11,35 @@
     - ansible-kube
   gather_facts: true
 
-- name: Configure ansible kube
-  hosts:
-    - master
-    - worker
-  tags: ['init', 'ansible-kube']
-  roles:
-    - ansible-kube
-  gather_facts: true
-
 - name: Provision Master
   hosts:
     - master
   become: true
-  tags: ['deploy', 'deploy_master']
+  tags: ['provision', 'provision_master']
   roles:
     - master_node
 
-- name: Deploy flannel
-  hosts:
-    - master
-  become: true
-  tags: ['deploy', 'deploy_cni_flannel']
-  roles:
-    - flannel
-
-- name: Deploy argocd
-  hosts:
-    - master
-  tags: ['deploy', 'deploy_argocd']
-  roles:
-    - argocd
-
-- name: Init Worker
+- name: Provision Worker
   hosts:
     - worker
   become: true
-  tags: ['deploy', 'deploy_worker']
+  tags: ['provision', 'provision_workers']
   roles:
     - worker_node
+
+- name: Install cilium
+  hosts:
+    - master
+  tags: ['install', 'install_cni_cilium']
+  roles:
+    - cilium
+
+- name: Install argocd
+  hosts:
+    - master
+  environment:
+    KUBECONFIG: "~/.kube/config"
+  tags: ['install', 'install_argocd']
+  roles:
+    - argocd
+
