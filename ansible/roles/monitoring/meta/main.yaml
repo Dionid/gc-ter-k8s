@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Dionid
+  description: Deploy Prometheus, Loki, and Grafana to Kubernetes using Helm
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: EL
+      versions:
+        - all
+  collections:
+    - community.kubernetes
+    - kubernetes.core
+dependencies: []

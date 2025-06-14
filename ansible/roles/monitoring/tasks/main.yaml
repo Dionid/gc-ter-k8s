@@ -1,0 +1,77 @@
+---
+- name: Pip kubernetes lib
+  become: true
+  ansible.builtin.pip:
+    break_system_packages: true
+    name: kubernetes
+    state: present
+
+- name: Ensure Helm repositories are added
+  community.kubernetes.helm_repository:
+    name: "{{ item.name }}"
+    repo_url: "{{ item.url }}"
+  loop:
+    - { name: "prometheus-community", url: "https://prometheus-community.github.io/helm-charts" }
+    - { name: "grafana", url: "https://grafana.github.io/helm-charts" }
+
+- name: Create monitoring namespace (if not present)
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: "{{ monitoring_stack_namespace }}"
+
+- name: Install Prometheus via Helm
+  community.kubernetes.helm:
+    name: prometheus
+    chart_ref: prometheus-community/prometheus
+    release_namespace: "{{ monitoring_stack_namespace }}"
+    create_namespace: false
+    state: present
+
+- name: Install Loki Stack via Helm (includes promtail)
+  community.kubernetes.helm:
+    name: loki
+    chart_ref: grafana/loki-stack
+    release_namespace: "{{ monitoring_stack_namespace }}"
+    create_namespace: false
+    state: present
+
+- name: Install Grafana via Helm
+  community.kubernetes.helm:
+    name: grafana
+    chart_ref: grafana/grafana
+    release_namespace: "{{ monitoring_stack_namespace }}"
+    create_namespace: false
+    state: present
+
+- name: Wait for all pods to be ready in monitoring namespace
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Pod
+    namespace: "{{ monitoring_stack_namespace }}"
+  register: pod_info
+  until: pod_info.resources | selectattr('status.phase', 'equalto', 'Running') | list | length == pod_info.resources | length
+  retries: 30
+  delay: 10
+
+- name: Get Grafana admin password
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    name: grafana
+    namespace: "{{ monitoring_stack_namespace }}"
+  register: grafana_secret
+
+- name: Show Grafana admin password
+  ansible.builtin.debug:
+    msg: "Grafana admin password: {{ grafana_secret.resources[0].data['admin-password'] | b64decode }}"
+
+- name: Show port-forward instruction for Grafana
+  ansible.builtin.debug:
+    msg: |
+      To access Grafana, run:
+        kubectl port-forward service/grafana 3000:80 -n {{ monitoring_stack_namespace }}
+      Then open http://localhost:3000 in your browser.

@@ -11,21 +11,24 @@ prepare-machines: ## Run ansible-playbook for initilization
 # Master
 
 provision-master: ## Run ansible-playbook
-	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags provision_master
+	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags provision-master
 
 install-cni-cilium: ## Run ansible-playbook
-	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags install_cni_cilium
+	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags install-cni-cilium
 
 install-argocd: ## Run ansible-playbook
-	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags install_argocd
+	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags install-argocd
 
 install-cert-manager: ## Run ansible-playbook
 	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags install-cert-manager
 
+install-monitoring: ## Run ansible-playbook
+	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags install-monitoring
+
 # Worker
 
 provision-workers: ## Run ansible-playbook
-	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags provision_workers
+	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags provision-workers
 
 # DANGEROUS
 

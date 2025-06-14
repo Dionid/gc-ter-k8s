@@ -11,7 +11,6 @@
 1. Ansible
 1. k8s
 1. Cilium
-1. MetalLB
 1. cert-manager
 1. ArgoCD
 
@@ -26,28 +25,25 @@
     1. `make install-cilium`
     1. `make install-argocd`
     1. `make install-cert-manager`
-    1. ``
 1. `make get-kube-config`
 1. ...
 
 # TODO
 
+1. Prometheus + Grafana
+1. Loki + Vector
+1. Cilium Hubble + Prometheus
 1. Vault
 1. PG master-slave (Patroni)
 1. Kafka master-slave (Strimzi)
+1. Redis
 1. App + Docker + Github Actions (dev / stage / prod) (test / migrations / build / deploy)
-1. VitoriaMetrics + Grafana
-1. VictoriaLogs + Vector
+1. Nginx Ingress Controller
 1. Grafana Tempo / ClickHouse
 1. keycloak
-1. zsh
 1. Rancher
-1. Cilium / Callico
+1. Callico
 1. Flagger
-1. cert-manager + MetalLB -> ArgoCD
-
-1. Connect Vault to Gitlab CI/CD
-1. Connect Vault to ArgoCD
 
 # Links
 
