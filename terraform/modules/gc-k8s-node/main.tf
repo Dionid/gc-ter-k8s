@@ -16,6 +16,7 @@ resource "google_compute_instance" "k8s-node" {
   boot_disk {
     initialize_params {
       image = var.image_name
+      size  = var.disk_size  # Size in GB
     }
   }
 

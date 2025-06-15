@@ -2,5 +2,7 @@
 k8s-master ansible_host=34.135.137.110 ansible_ssh_user=ubuntu
 
 [worker]
+
 k8s-worker-1 ansible_host=34.28.230.78 ansible_ssh_user=ubuntu
+
 k8s-worker-2 ansible_host=104.154.171.222 ansible_ssh_user=ubuntu

@@ -29,7 +29,9 @@
     chart_ref: prometheus-community/prometheus
     release_namespace: "{{ monitoring_stack_namespace }}"
     create_namespace: false
+    values: "{{ lookup('file', 'prometheus-values.yaml') | from_yaml }}"
     state: present
+    force: true
 
 - name: Install Loki Stack via Helm (includes promtail)
   community.kubernetes.helm:

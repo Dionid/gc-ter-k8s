@@ -31,3 +31,9 @@ variable "network_ip" {
     type = string
     description = "vm private network ip"
 }
+
+variable "disk_size" {
+    type = number
+    default = 20
+    description = "disk size in GB"
+}
