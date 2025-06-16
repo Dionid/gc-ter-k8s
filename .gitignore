@@ -17,3 +17,5 @@ join-command-worker
 kube_config
 
 .env
+
+cloud-sa.json

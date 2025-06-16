@@ -65,3 +65,10 @@
   tags: ['install', 'install-monitoring']
   roles:
     - monitoring
+
+- name: Install gc-sci
+  hosts:
+    - master
+  tags: ['install', 'install-gc-sci']
+  roles:
+    - gc-sci

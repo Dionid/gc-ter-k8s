@@ -25,6 +25,9 @@ install-cert-manager: ## Run ansible-playbook
 install-monitoring: ## Run ansible-playbook
 	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags install-monitoring
 
+install-sci: ## Run ansible-playbook
+	ansible-playbook ./playbook.yml -i ./inventories/hosts --tags install-gc-sci
+
 # Worker
 
 provision-workers: ## Run ansible-playbook

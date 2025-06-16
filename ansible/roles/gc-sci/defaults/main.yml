@@ -1,0 +1,19 @@
+---
+gcp_pd_csi_controller_replicas: 1
+
+kube_image_repo: "registry.k8s.io"
+
+csi_provisioner_image_repo: "{{ kube_image_repo }}/sig-storage/csi-provisioner"
+csi_provisioner_image_tag: "v3.0.0"
+
+csi_attacher_image_repo: "{{ kube_image_repo }}/sig-storage/csi-attacher"
+csi_attacher_image_tag: "v3.3.0"
+
+csi_resizer_image_repo: "{{ kube_image_repo }}/sig-storage/csi-resizer"
+csi_resizer_image_tag: "v1.3.0"
+
+csi_snapshotter_image_repo: "{{ kube_image_repo }}/sig-storage/csi-snapshotter"
+csi_snapshotter_image_tag: "v5.0.0"
+
+gcp_pd_csi_plugin_image_repo: "{{ kube_image_repo }}/cloud-provider-gcp/gcp-compute-persistent-disk-csi-driver:v1.17.2"
+gcp_pd_csi_plugin_image_tag: v1.17.2

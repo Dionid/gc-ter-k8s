@@ -25,6 +25,7 @@
     1. `make install-cilium`
     1. `make install-argocd`
     1. `make install-cert-manager`
+    1. `make install-csi`
 1. `make get-kube-config`
 1. ...
 
