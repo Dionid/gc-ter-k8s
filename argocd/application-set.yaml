@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: helm-apps
+  name: helm
   namespace: argocd
 spec:
   generators:
@@ -9,7 +9,7 @@ spec:
         repoURL: https://github.com/Dionid/gc-ter-k8s
         revision: HEAD
         directories:
-          - path: argocd/apps/*
+          - path: argocd/helm/*
   template:
     metadata:
       name: '{{path.basename}}'
@@ -42,6 +42,35 @@ spec:
         revision: HEAD
         directories:
           - path: argocd/apply/*
+  template:
+    metadata:
+      name: '{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/Dionid/gc-ter-k8s
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{.path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/Dionid/gc-ter-k8s
+        revision: HEAD
+        directories:
+          - path: argocd/apps/*
   template:
     metadata:
       name: '{{path.basename}}'
