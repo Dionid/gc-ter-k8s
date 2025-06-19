@@ -4,5 +4,5 @@ metadata:
   name: standard-disk
 provisioner: pd.csi.storage.gke.io
 parameters:
-  type: pd-standard    # or pd-ssd
+  type: pd-standard
   replication-type: none

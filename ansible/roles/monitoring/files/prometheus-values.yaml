@@ -1302,6 +1302,7 @@ alertmanager:
 
   persistence:
     size: 2Gi
+    storageClass: "standard-disk"
 
   podSecurityContext:
     runAsUser: 65534
