@@ -24,6 +24,35 @@ spec:
             - values.yaml
       destination:
         server: https://kubernetes.default.svc
+        namespace: '{{split (path) "/" | index 1}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: simple-apply
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/Dionid/gc-ter-k8s
+        revision: HEAD
+        directories:
+          - path: argocd/apply/*
+  template:
+    metadata:
+      name: '{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/Dionid/gc-ter-k8s
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
         namespace: '{{index .path.segments 0}}'
       syncPolicy:
         automated:
