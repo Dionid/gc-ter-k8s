@@ -17,7 +17,6 @@ spec:
     namespace: monitoring    # The namespace where you want to install the stack
   syncPolicy:
     automated: {}            # Optional: enable auto-sync
-    syncPolicy:
     syncOptions:
       - CreateNamespace=true # Optional: auto-create the destination namespace
       - ServerSideApply=true 
