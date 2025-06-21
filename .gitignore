@@ -10,8 +10,6 @@ ansible/inventories/host_vars/*
 terraform/**/.terraform/*
 terraform/*.tfstate
 terraform/*.tfstate.*
-terraform/*.tfvars
-!terraform/example.tfvars
 
 join-command-worker
 kube_config

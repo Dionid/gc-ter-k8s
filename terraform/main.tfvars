@@ -1,4 +1,4 @@
-project-id = ...
+project-id = "pe-first"
 
 master_node = {
   machine_name = "k8s-master"
