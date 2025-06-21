@@ -6,6 +6,7 @@
 1. Provision k8s by Ansible
 
 # Stack
+Currently done:
 
 1. Terraform
 1. Ansible
@@ -13,6 +14,8 @@
 1. Cilium
 1. cert-manager
 1. ArgoCD
+1. Google CSI
+1. Prometheus + Grafana
 
 # Install
 
@@ -26,24 +29,24 @@
     1. `make install-argocd`
     1. `make install-cert-manager`
     1. `make install-csi`
-1. `make get-kube-config`
+1. `make get-kube-config` – get kubeconfig for kubectl
+1. `kubectl apply -f kustomize/argocd/application-set.yaml` – install autoconfig for ArgoCD
 1. ...
 
 # TODO
 
-1. Prometheus + Grafana
 1. Loki + Vector
+1. Tempo (ClickHouse)
 1. Cilium Hubble + Prometheus
 1. Vault
 1. PG master-slave (Patroni)
 1. Kafka master-slave (Strimzi)
 1. Redis
 1. App + Docker + Github Actions (dev / stage / prod) (test / migrations / build / deploy)
-1. Nginx Ingress Controller
-1. Grafana Tempo / ClickHouse
+1. HPA & VPA on Premeteus
+1. Nginx Ingress Controller (CMM)
 1. keycloak
 1. Rancher
-1. Callico
 1. Flagger
 
 # Links
